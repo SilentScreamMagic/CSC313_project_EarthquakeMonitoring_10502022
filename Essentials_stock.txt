@@ -1,0 +1,9 @@
+ITEM   QUANTITY   PRICE 
+milk 10 10.0
+milo 10 10.0
+ITEM   QUANTITY   PRICE 
+milk      10     10.0
+milo      10     10.0
+ITEM     QUANTITY     PRICE 
+milk        10         10.0
+milo        10         10.0
