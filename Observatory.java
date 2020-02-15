@@ -9,7 +9,7 @@ public class Observatory {
 	private int count;
 	private int highCol;
 	
-	public Observatory(String name, String country, int year, double areaCovered, Galamsey[] observation) {
+	public Observatory(String name, String country, int year, double areaCovered) {
 		super();
 		this.name = name;
 		this.country = country;
