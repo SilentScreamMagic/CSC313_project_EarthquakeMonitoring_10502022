@@ -22,7 +22,7 @@ import javafx.stage.Stage;
 
 public class MonitoringGUI extends Application{
 	Stage mainStage;
-	TableView<Galamsey> galamTable;
+	
 	GridPane gpane;
 	Monitoring mon;
 	MenuBar menu;
@@ -44,24 +44,26 @@ public class MonitoringGUI extends Application{
 	public Scene addWindow() {
 		
 		menu = new MenuBar();
-		Menu obs = new Menu("Observations");
-		obs.setOnAction(event->createObserTable());
-		Menu gal = new Menu("Galamsey");
-		gal.setOnAction(event->createGalamTable(null));
 		Menu view = new Menu("View");
+		Menu obs = new Menu("Observations");
+		obs.setOnAction(event->createObserTable(view));
+		Menu gal = new Menu("Galamsey");
+		gal.setOnAction(event->createGalamTable(view,null));
+		
 		view.getItems().addAll(obs,gal);
 		
 		
 		Menu add = new Menu("Add Data");
 		Menu adobs = new Menu("Add Observatory");
 		Menu adgal = new Menu("Add Galamsey");
-		adobs.setOnAction(event->observatory());
-		adgal.setOnAction(event->galamsey());
+		adobs.setOnAction(event->observatory(add));
+		adgal.setOnAction(event->galamsey(add));
 		
 		add.getItems().addAll(adgal,adobs);
 		
 		
 		menu.getMenus().addAll(add,view);
+	
 		
 		gpane = new GridPane();
 		
@@ -76,8 +78,8 @@ public class MonitoringGUI extends Application{
 	
 	
 	
-	public void galamsey() {
-		
+	public void galamsey(Menu clicked) {
+		clicked.hide();
 		load();
 		
 		GridPane grid = new GridPane();
@@ -118,8 +120,8 @@ public class MonitoringGUI extends Application{
 		mainStage.setScene( new Scene(grid,600,300));
 	}
 	
-	public void observatory() {
-		
+	public void observatory(Menu clicked) {
+		clicked.hide();
 		GridPane grid = new GridPane();
 		grid.add(menu, 0, 0);
 		
@@ -172,10 +174,12 @@ public class MonitoringGUI extends Application{
 	}
 	
 	
-	 public void createGalamTable(String name) {
+	 public void createGalamTable(Menu clicked, String name) {
+		 if (clicked!=null)
+			 clicked.hide();
 		ComboBox<String> whichObs = new ComboBox<String>();
 		whichObs.getItems().addAll(mon.observations.keySet());
-		whichObs.setOnAction(event->createGalamTable(whichObs.getValue()));
+		whichObs.setOnAction(event->createGalamTable(null,whichObs.getValue()));
 		GridPane b = new GridPane();
 		Label lCol= new Label("Largest Colour Value: 0");
 		Label aCol = new Label("Average Colour Value: 0");
@@ -211,7 +215,7 @@ public class MonitoringGUI extends Application{
 		
 		
 		
-		galamTable = new TableView<>();
+		TableView<Galamsey> galamTable = new TableView<>();
 		galamTable.setItems(galam);
 		galamTable.getColumns().addAll(vegcolColumn,colColumn,lon,lat,year);
 		VBox vbox = new VBox();
@@ -231,7 +235,9 @@ public class MonitoringGUI extends Application{
 		mainStage.setScene(s);
 	 }
 	
-	 public void createObserTable() {
+	 public void createObserTable(Menu clicked) {
+		 	clicked.hide();
+		 
 			GridPane b = new GridPane();
 			ObservableList<Observatory> observe = FXCollections.observableArrayList();
 			Label lCol= new Label("Largest Colour Value: 0");
@@ -329,7 +335,7 @@ public class MonitoringGUI extends Application{
 		
 		
 		
-		galamTable = new TableView<>();
+		TableView<Galamsey> galamTable = new TableView<>();
 		galamTable.setItems(galam);
 		galamTable.getColumns().addAll(vegcolColumn,colColumn,lon,lat,year);
 		VBox vbox = new VBox();
@@ -386,7 +392,7 @@ public class MonitoringGUI extends Application{
 			
 			
 			
-			galamTable = new TableView<>();
+			TableView<Galamsey> galamTable = new TableView<>();
 			galamTable.setItems(galam);
 			galamTable.getColumns().addAll(vegcolColumn,colColumn,lon,lat,year);
 			VBox vbox = new VBox();
