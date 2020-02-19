@@ -2,8 +2,9 @@ import java.sql.SQLDataException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+//a method to present a user with record options to choose from
 public class MonitoringIO{
-    public void display_options(){
+    public void display_options(){ 
         System.out.println("1. Enter observatory data and List of events (Galamsey) \n2. Enter the Galamsey data");
         System.out.println("3. View monitoring statistics");
         System.out.println("4. Enter to view Galamsey records ");
@@ -11,6 +12,8 @@ public class MonitoringIO{
         System.out.println("What's your selection?; ");
     }
 
+    //throws an exception which allows the user to either validate his choice or return to the menu of options
+    //this method also spots invalid inputs by the user
     public void query() throws SQLDataException {
         System.out.println("Do you want to proceed or quit?");
         System.out.println("To proceed enter 5");
@@ -37,6 +40,7 @@ public class MonitoringIO{
         }
     }
 
+    //this method uses switch cases to define what each option entails and displays
     public MonitoringIO() throws SQLDataException {
         Galamsey galamsey = new Galamsey();
         Observatory observatory = new Observatory();
@@ -84,6 +88,8 @@ public class MonitoringIO{
                 break;
         }
     }
+    
+    //main method to run the MonitoringIO class
     public static void main( String[] args) throws SQLDataException {
         new MonitoringIO();
     }
