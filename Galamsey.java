@@ -4,26 +4,29 @@ import java.sql.SQLDataException;
 import java.util.*;
 import java.sql.*;
 
-public class Galamsey{
+public class Galamsey {
     private String Veg_col;
     private int col_value;
     private double latitude;
     private double longitude;
     private int year;
-    private String observatory_name;
     private Connection conn;
     private Statement st;
     private ResultSet rs;
+    private String observatory_name;
+
+
 
     public Galamsey(){} // default constructor
 
-    public Galamsey(String veg_col, int col_value, double latitude, double longitude,int year, String observatory_name) {
-        Veg_col = veg_col;
+    public Galamsey(String veg_col, int col_value, double latitude, double longitude, int year) {
+        this.Veg_col = veg_col;
         this.col_value = col_value;
         this.latitude = latitude;
         this.longitude = longitude;
         this.year = year;
-        this.observatory_name = observatory_name;
+
+
     }
 
     public String getVeg_col() {
@@ -66,6 +69,8 @@ public class Galamsey{
         this.year = year;
     }
 
+
+
     public String getObservatory_name() {
         return observatory_name;
     }
@@ -81,14 +86,27 @@ public class Galamsey{
      */
     public void Ga_details(){
         try {
+
             Scanner sc = new Scanner(System.in);
             System.out.println("Enter the Vegetation color: ");
             String veg = sc.nextLine();
-            setVeg_col(veg);
+            veg.toLowerCase();
+            if (veg.equals("green") || veg.equals("red") || veg.equals("yellow")){
+                setVeg_col(veg);
+            }
+            else
+                System.out.println("You entered a wrong input here.");
+
 
             System.out.println("Enter the color value: ");
             int col = sc.nextInt();
-            setCol_value(col);
+            if (col == 1 || col == 2 || col == 3){
+                setCol_value(col);
+            }
+            else{
+                System.out.println("You entered the wrong assigned number");
+            }
+
 
             System.out.println("Enter the latitude of the area: ");
             double lat = sc.nextDouble();
@@ -102,9 +120,13 @@ public class Galamsey{
             int y = sc.nextInt();
             setYear(y);
 
-            System.out.println("Enter the name of the Observatory: ");
-            String o = sc.nextLine();
-            setObservatory_name(o);
+            System.out.println("Enter the observation name: ");
+            Scanner sc1 = new Scanner(System.in);
+            String obs_name = sc1.nextLine();
+            setObservatory_name(obs_name);
+
+
+
         }
         catch(InputMismatchException e){
             e.printStackTrace();
@@ -125,31 +147,16 @@ public class Galamsey{
     public void intakeData_Galamsey () throws SQLDataException {
 
         //  The insertion query
-        String sql = "insert into galamsey(Veg_col, col_value, latitude,longitude, event_year, observatory_name) values(?,?,?,?,?,?)";
-
-        String sql2 = "select count('"+ this.getObservatory_name()+"') as obervatorynameidentifier from observatory";
+        String sql = "insert into galamsey(Veg_col, col_value, latitude , longitude , event_year, observatory_name) VALUES(?,?,?,?,?,?);" ;
 
         PreparedStatement pstmt = null;
 
-        /**
-        try {
-            int x = pstmt.executeUpdate(sql2);
-
-            if (x <= 0){
-                System.out.println("You can not insert into the galamsey because there is no data in the observatory");
-            }
-        }
-        catch(SQLException ex){
-            System.out.println("There is an error in the query");
-        }
-         */
         conn = null;
 
         // PreparedStatement is an interface used to execute the parameterized SQL query
 
-
-
         try{
+            //Observatory observatory = new Observatory();
             // This load the driver's class at
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -168,16 +175,16 @@ public class Galamsey{
             pstmt.setString(6, this.getObservatory_name());
 
 
-            int i = pstmt.executeUpdate(sql);
-            int x = pstmt.executeUpdate(sql2);
-
-            if(i  > 0 && x > 0){
-                System.out.println("Your data was successfully inserted collected");
-
+            int i = pstmt.executeUpdate();
+            // Checking rows were affected by the query
+            if(i  > 0){
+                System.out.println("Your data was successfully inserted collected in the Galamsey database");
             }
             else {
                 System.out.println("Your data was not collected");
             }
+
+
 
             // terminating the connection with mysql
             conn.close();
@@ -188,5 +195,57 @@ public class Galamsey{
         }
 
     }
+
+    public void getData(){
+        String query = "select * from galamsey";
+        conn = null;
+
+        try{
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // This is use to register a driver for the mysql database and with the getConnection
+            // method to establish a database connection with mysql
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ICP_Project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root","");
+
+
+            Statement st = conn.createStatement();
+            // rs holds all the results of the query
+            rs = st.executeQuery(query);
+            System.out.println("Records from database");
+
+
+            while(rs.next()){
+                String Vegetation_colour = rs.getString("veg_col");
+                int Colour_value = rs.getInt("col_value");
+                double latitude = rs.getDouble("latitude");
+                double longitude = rs.getDouble("latitude");
+                int year = rs.getInt("event_year");
+                String observatory_name = rs.getString("observatory_name");
+                System.out.println("Veg_col: "+ Vegetation_colour  + "\ncol_value: " + Colour_value +"\nLatitude: "+
+                        latitude +"\nLongitude: "+ longitude +"\nYear: "+ year +"\nObservatory name:"+ observatory_name );
+            }
+            st.close();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "Galamsey{" +
+                "Veg_col='" + this.getVeg_col() + '\'' +
+                ", col_value=" + this.getCol_value() +
+                ", latitude=" + this.getLatitude() +
+                ", longitude=" + this.getLongitude() +
+                ", year=" + this.getYear() +
+                '}';
+    }
+
+
+
+
 
 }
