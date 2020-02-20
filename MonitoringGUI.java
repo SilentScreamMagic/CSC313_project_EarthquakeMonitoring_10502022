@@ -91,7 +91,7 @@ public class MonitoringGUI extends Application{
 
     /**
      * The galamsey method creates a form-like window to input new galamsey objects into the database
-     * @param clicked is the menu used to call the method and is passed in order to hide the dropdown on click
+     * @param clicked Clicked is the menu used to call the method and is passed in order to hide the dropdown on click
      */
     public void galamsey(Menu clicked) {
         if (clicked!=null){
@@ -145,7 +145,7 @@ public class MonitoringGUI extends Application{
 
     /**
      * The observatory method creates a form-like window to input new observatory objects into the database
-     * @param clicked is the menu used to call the method and is passed in order to hide the dropdown on click
+     * @param clicked Clicked is the menu used to call the method and is passed in order to hide the dropdown on click
      */
     public void observatory(Menu clicked) {
         if (clicked!=null){
@@ -189,13 +189,14 @@ public class MonitoringGUI extends Application{
     }
 
     /**
-     * Creates add 
-     * @param veg_col
-     * @param col
-     * @param lon
-     * @param lat
-     * @param year
-     * @param obs
+     * Creates a galamsey object to the appropriate observation hashtable and add the data to the galamsey table in the database 
+     * to ensure that both the database and the code have the same data
+     * @param veg_col Vegetation colour of the galamsey
+     * @param col Colour value of the galamsey
+     * @param lon Longitude value of the location of the galamsey occurence
+     * @param lat Latitude value of the location of the galamsey occurence
+     * @param year The year of the galamsey occurence
+     * @param obs The name of the observatory the galamsey occurence is part of
      * @throws SQLDataException
      */
     public void galam_data(String veg_col,int col,double lon,double lat, int year,String obs) throws SQLDataException {
@@ -207,7 +208,9 @@ public class MonitoringGUI extends Application{
         galamsey.intakeData_Galamsey();
 
     }
-
+    /**
+    * The load methods loads the data in the database into the hastable
+    */
     public void load() {
         mon = new Monitoring();
         Connection conn;
@@ -263,7 +266,14 @@ public class MonitoringGUI extends Application{
         }
     }
 
-
+    /**
+    * The obser_data method adds the observatory data into the observatory table in the database as well as adding observatory
+    * object to the hashtable 
+    * @param name The name of the observatory
+    * @param country The country of the observatory
+    * @param year The year of the observatory
+    * @param area The area covered by the observatory
+    */
     public void obser_data(String name, String country, int year, double area) throws SQLDataException {
         Observatory observe = new Observatory(name,country,year,area);
         mon.observations.put(name, observe);
@@ -272,7 +282,11 @@ public class MonitoringGUI extends Application{
         observe.intake_Data_Observatory();
     }
 
-
+    /** 
+    * View the galamsey table of a specified observatory
+    * @param clicked Clicked is the menu used to call the method and is passed in order to hide the dropdown on click
+    * @param name The observation name that the user wishes to view
+    */
     public void createGalamTable(Menu clicked, String name) {
         if (clicked!=null)
             clicked.hide();
@@ -333,7 +347,10 @@ public class MonitoringGUI extends Application{
         Scene s = new Scene(b,600,400);
         mainStage.setScene(s);
     }
-
+    /** 
+    * View the observatory table
+    * @param clicked Clicked is the menu used to call the method and is passed in order to hide the dropdown on click
+    */
     public void createObserTable(Menu clicked) {
         clicked.hide();
 
@@ -387,6 +404,10 @@ public class MonitoringGUI extends Application{
         Scene s = new Scene(b,600,400);
         mainStage.setScene(s);
     }
+    /** 
+    * View the Galamsey data in a given observatory that have a colour value greater than a given value
+    * @param name The name of the observatory currently being viewed
+    */
     public void fromGalamseyAtLimit(String name) {
         Stage displayLimit = new Stage();
         Label limit = new Label("Enter the colour value range");
@@ -401,6 +422,11 @@ public class MonitoringGUI extends Application{
         displayLimit.show();
 
     }
+    /**
+    * View the galamsey data with a colour value greater than the limit in the observatory with the given name 
+    * @param name The observatory name to be viewed from
+    * @param limit The limit at which the galamsey objects are filtered
+    */
     public void galamLimit(String name,int limit) {
         Stage stage = new Stage();
 
@@ -448,6 +474,10 @@ public class MonitoringGUI extends Application{
         stage.show();
 
     }
+    /**
+    * View the galamsey data with a colour value greater than the limit in the database
+    * @param limit The limit at which the galamsey objects are filtered
+    */
     public void fromObservatoryAtLimit() {
         Stage displayLimit = new Stage();
         Label limit = new Label("Enter the colour value range");
@@ -462,6 +492,10 @@ public class MonitoringGUI extends Application{
         displayLimit.show();
 
     }
+    /**
+    * View the galamsey data with a colour value greater than the limit in the database 
+    * @param limit The limit at which the galamsey objects are filtered
+    */
     public void obGalamLimit(int limit) {
         Stage stage = new Stage();
 
