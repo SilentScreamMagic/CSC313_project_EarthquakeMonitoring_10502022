@@ -15,7 +15,7 @@ public class MonitoringIO{
 
     public void query() throws SQLDataException {
         System.out.println("Do you want to proceed or quit?");
-        System.out.println("To proceed enter 5");
+        System.out.println("To proceed enter 9");
         System.out.println("To quit enter 0");
         try {
             Scanner que = new Scanner(System.in);
@@ -24,7 +24,7 @@ public class MonitoringIO{
                     System.out.println("Thank you and goodbye.");
                     break;
 
-                case 5:
+                case 9:
                     System.out.println("Please proceed.");
                     new MonitoringIO();
                     break;
