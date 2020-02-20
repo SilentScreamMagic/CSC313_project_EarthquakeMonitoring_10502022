@@ -1,10 +1,21 @@
+/*A program that gets the largest colour value and the 
+* average colour value
+*@authors Bryan Ayitey
+*         Eugene Daniels
+*         Wisdom Kalu
+*          Abena Okyere
+*
+*/
+
+
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Monitoring {
     public Hashtable<String, Observatory> observations;
 
-
+    // A default constructor
     public Monitoring(){
 
         observations = new Hashtable<String, Observatory>();
@@ -23,7 +34,11 @@ public class Monitoring {
         }
         return highCol;
     }
-
+    
+    /**
+    *This method get the largest colour value 
+    *
+    */
     public double getLargestAvgColour() {
         double avgCol=0;
         for (Observatory ob : observations.values()) {
