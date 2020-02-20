@@ -273,13 +273,13 @@ public class Observatory{
      */
     @Override
     public String toString() {
-        return "Observatory{" +
-                "name='" + name + '\'' +
-                ", country='" + country + '\'' +
-                ", year=" + year +
-                ", areaCovered=" + areaCovered +
-                ", observation=" + observation +
-                ", highCol=" + highCol +
+        return "Observatory { " +
+                "name= '" + name + '\'' +
+                ", country= '" + country + '\'' +
+                ", year= " + year +
+                ", areaCovered= " + areaCovered +
+                ", observation= " + observation +
+                ", highCol= " + highCol +
                 '}';
     }
 
