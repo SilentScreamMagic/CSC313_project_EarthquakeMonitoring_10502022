@@ -1,5 +1,3 @@
-///package code;
-
 import java.sql.DriverManager;
 import java.sql.SQLDataException;
 import java.sql.Statement;
@@ -34,24 +32,32 @@ public class MonitoringGUI extends Application{
 
     ComboBox<String> whichObs;
 
-
+    /**
+     * The start method is the initial method of the GUI to create the first window
+     * @param primaryStage is the intial Stage that is viewed
+     */
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage)  {
 
         load();
         mainStage=primaryStage;
-        mainStage.setTitle("Galamsey Research");
+        mainStage.setTitle("Galamsey Monitoring Application");
         mainStage.setScene(addWindow());
         mainStage.show();
 
 
     }
+
+    /**
+     * The addWindow method create the menu to be displayed on the stages
+     * @return selectScene is the view of the menu
+     */
     public Scene addWindow() {
 
         menu = new MenuBar();
         Menu view = new Menu("View");
-        Menu obs = new Menu("Observations");
+        Menu obs = new Menu("Observatory");
         obs.setOnAction(event->createObserTable(view));
         Menu gal = new Menu("Galamsey");
         gal.setOnAction(event->createGalamTable(view,null));
@@ -83,9 +89,14 @@ public class MonitoringGUI extends Application{
     }
 
 
-
+    /**
+     * The galamsey method creates a form-like window to input new galamsey objects into the database
+     * @param clicked is the menu used to call the method and is passed in order to hide the dropdown on click
+     */
     public void galamsey(Menu clicked) {
-        clicked.hide();
+        if (clicked!=null){
+            clicked.hide();
+        }
         load();
 
         GridPane grid = new GridPane();
@@ -101,7 +112,7 @@ public class MonitoringGUI extends Application{
         grid.add(col, 0, 3);
         grid.add(col1, 2, 3);
 
-        Label pos = new Label("Position (Longitute,Latitude)");
+        Label pos = new Label("Position (Longitude,Latitude)");
         TextField pos1 = new TextField();
         TextField pos2 = new TextField();
         grid.add(pos, 0, 4);
@@ -132,8 +143,15 @@ public class MonitoringGUI extends Application{
         mainStage.setScene( new Scene(grid,600,300));
     }
 
+    /**
+     * The observatory method creates a form-like window to input new observatory objects into the database
+     * @param clicked is the menu used to call the method and is passed in order to hide the dropdown on click
+     */
     public void observatory(Menu clicked) {
-        clicked.hide();
+        if (clicked!=null){
+            clicked.hide();
+        }
+
         GridPane grid = new GridPane();
         grid.add(menu, 0, 0);
 
@@ -170,13 +188,22 @@ public class MonitoringGUI extends Application{
         mainStage.setScene(new Scene(grid,600,300));
     }
 
+    /**
+     * Creates add 
+     * @param veg_col
+     * @param col
+     * @param lon
+     * @param lat
+     * @param year
+     * @param obs
+     * @throws SQLDataException
+     */
     public void galam_data(String veg_col,int col,double lon,double lat, int year,String obs) throws SQLDataException {
         Galamsey galamsey = new Galamsey(veg_col,col,lon,lat,year);
         galamsey.setObservatory_name(obs);
 
         mon.observations.get(obs).add_Galamsey(galamsey);
-        //Insert galamsey into the galamsey table
-        //galamsey = observatory.add_Galamsey();
+        galamsey(null);
         galamsey.intakeData_Galamsey();
 
     }
@@ -207,7 +234,7 @@ public class MonitoringGUI extends Application{
                 int year_event = rs.getInt("year_obsv");
                 int area = rs.getInt("area_covered");
 
-               mon.observations.put(obser_name,new Observatory(obser_name,country,year_event,area));
+                mon.observations.put(obser_name.trim(),new Observatory(obser_name,country,year_event,area));
 
             }
             st = conn.createStatement();
@@ -224,23 +251,24 @@ public class MonitoringGUI extends Application{
                 int year = rs.getInt("event_year");
                 String observatory_name = rs.getString("observatory_name");
 
-                mon.observations.get(observatory_name).add_Galamsey(new Galamsey(Vegetation_colour,Colour_value,latitude,longitude,year));
+                mon.observations.get(observatory_name.trim()).add_Galamsey(new Galamsey(Vegetation_colour,Colour_value,latitude,longitude,year));
             }
 
 
             st.close();
 
 
-            } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            }
         }
+    }
 
 
     public void obser_data(String name, String country, int year, double area) throws SQLDataException {
         Observatory observe = new Observatory(name,country,year,area);
         mon.observations.put(name, observe);
         // add to observatory table
+        observatory(null);
         observe.intake_Data_Observatory();
     }
 
@@ -479,4 +507,3 @@ public class MonitoringGUI extends Application{
     }
 
 }
-

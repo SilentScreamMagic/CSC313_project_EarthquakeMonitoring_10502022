@@ -54,7 +54,9 @@ public class Observatory{
 
     public double getAvgValue() {
         int total=0;
+
         for (Galamsey galamsey : observation) {
+
             total=total+galamsey.getCol_value();
         }
         return ((double) total/observation.size());
@@ -151,8 +153,12 @@ public class Observatory{
 
     }
 
-
+    /**
+     * This method takes in the input or attributes of the
+     * observatory
+     */
     public void Observatory_intake(){
+        // Error Handling of the inputs taken
         try {
 
             Scanner sc = new Scanner(System.in);
@@ -180,8 +186,14 @@ public class Observatory{
         }
     }
 
+    /**
+     * This method takes the inputs attributes of an observatory and
+     * inserts them into a database
+     * @throws SQLDataException if there is any sql syntax error
+     */
     public void intake_Data_Observatory() throws SQLDataException {
 
+        // A query to insert  into a database table called Observatory
         String sql = "insert into Observatory(observatory_name, country_located, year_obsv ,area_covered) values(?,?,?,?)";
 
         PreparedStatement pstmt1 = null;
@@ -193,7 +205,7 @@ public class Observatory{
             pstmt1 = conn.prepareStatement(sql);
 
 
-            // This is for sql query 1
+            // Passing the accessor or getter methods of the observatory class into the database fields
             pstmt1.setString(1, this.getName());
             pstmt1.setString(2, this.getCountry());
             pstmt1.setInt(3, this.getYear());
@@ -221,7 +233,9 @@ public class Observatory{
         }
     }
 
-
+    /**
+     * This method show the data in the observatory relation in the database
+     */
     public void get_observatory_data(){
         String sql = "select * from observatory";
         conn = null;
@@ -230,11 +244,10 @@ public class Observatory{
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ICP_Project?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root","");
             Statement st = conn.createStatement();
 
+            // Resultset for handlling the selected data from the database
             ResultSet rs  = st.executeQuery(sql);
 
-            // iterate through the java
-
-
+            // Iterating through the database to get the data at  every tuple and passing them to a variable
             while(rs.next()){
                 String obser_name = rs.getString("observatory_name");
                 String country = rs.getString("country_located");
@@ -244,17 +257,20 @@ public class Observatory{
                 System.out.println("Observatory Name: "+ obser_name + "Country located: "+ country +"Year: "+ year +"Area covered: "+ area);
             }
 
+            // closing the statement created
             st.close();
 
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+            /* error handling exceptions which will be thrown if any */
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
-
+    /**
+     * This method return the string representation
+     * of the class observatory
+     * @return a string representation of the gobservatory attribute
+     */
     @Override
     public String toString() {
         return "Observatory{" +
