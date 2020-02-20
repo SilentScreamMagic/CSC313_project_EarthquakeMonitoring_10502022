@@ -126,9 +126,9 @@ public class MonitoringIO{
 
             rs  = st.executeQuery(sql);
 
-            // iterate through the java
+   
 
-
+            // insetion into the relation of observatory
             while(rs.next()) {
                 String obser_name = rs.getString("observatory_name");
                 String country = rs.getString("country_located");
