@@ -157,6 +157,7 @@ public class MonitoringIO{
 
 
             st.close();
+            conn.close();
 
 
         } catch (ClassNotFoundException | SQLException e) {
