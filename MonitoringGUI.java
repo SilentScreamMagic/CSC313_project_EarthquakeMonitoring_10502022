@@ -259,6 +259,7 @@ public class MonitoringGUI extends Application{
 
 
             st.close();
+            conn.close();
 
 
         } catch (ClassNotFoundException | SQLException e) {
