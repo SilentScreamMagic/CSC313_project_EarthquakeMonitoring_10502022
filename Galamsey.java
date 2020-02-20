@@ -305,12 +305,12 @@ public class Galamsey {
      */
     @Override
     public String toString() {
-        return "Galamsey{" +
-                "Veg_col='" + this.getVeg_col() + '\'' +
-                ", col_value=" + this.getCol_value() +
-                ", latitude=" + this.getLatitude() +
-                ", longitude=" + this.getLongitude() +
-                ", year=" + this.getYear() +
+        return "Galamsey {" +
+                " Veg_col=  '" + this.getVeg_col() + '\'' +
+                ", col_value=  " + this.getCol_value() +
+                ",  latitude=  " + this.getLatitude() +
+                ",  longitude=  " + this.getLongitude() +
+                ",  year=  " + this.getYear() +
                 '}';
     }
 
