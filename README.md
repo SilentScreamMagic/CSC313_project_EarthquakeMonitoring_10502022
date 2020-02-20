@@ -8,6 +8,8 @@ THINGS NEEDED:
 3. The creation of the tables in mysql database using the sql query syntax below
 4. A change of the connection and the database depending on what you will be using
 5. Kindly find attached two csv files 
+6. Version runs from the MonitoringIO
+7. Version two runs from the MonitoringGUI
 
 
 --------------------------------------------------------------------------------------------------------
@@ -54,4 +56,6 @@ How it works
 -----------------------------------------------------------------------------
 Depending on the csv file you are reading from and the relation you want to insert to, the read_into_observatory(String filecsv1) method takes the csv file path of a csv file and inserts its data into the observatory relation. The Take_csv_Galamsey(String filecsv2) takes the string file path or directory of the csv file and adds it data into the galamsey relation in the database. The connection between the java program and the database is by the use of the mysql connector. The methods to enable the program to insert into the database are implemented in the class. First, the program takes in the file reads the first line of the file sets it to null since the first line contains the names of the fields such as observatory name, vegetation colour, etc.It does not need to be added to the database so it is sets to null then from the second line of the csv file an iteration is done using the while loop. The iteration continues until the line is null. A String array, a string line variable are all predefined. When a line has been read, that line is been splitted into individual string elements by splitting according to the comma that separates them. That is the reason why the csv file must be saved as a comma delimited file extension. Then the array is been indexed to insert it individual index into it respective fields in the database. That's done till the readline gets to return null then its ends the program and at the same time the connection is close and the file openned for reading is also close then the program ends for that method call. 
 
+MonitoringIO
+The monitoringIO is the contains the main method of the version one part of the project. It performs functionality like the insetion of galamsey data, insertion of observatory data, monitoring statistics etc. By the use of object oriented programming the classes such as the galamsey, observatory are been called and their instances are been created to call their methods which makes the programming must easier and realistic. The insertion of the data into the database is taken up here as well since after the data is taken they are been inserted. 
 
