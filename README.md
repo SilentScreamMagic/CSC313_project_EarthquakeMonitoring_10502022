@@ -30,3 +30,12 @@ CREATE TABLE `galamsey` (
   KEY `observatory_name` (`observatory_name`),
   CONSTRAINT `galamsey_ibfk_1` FOREIGN KEY (`observatory_name`) REFERENCES `observatory` (`observatory_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4
+
+
+The Read_csv class 
+---------------------------------------------------------
+The Read_csv class reads from a csv (comma delimited) file and writes its data into the database. It does this by the creation of an object of the class and calling the methods which insert into either the observatory relation or the Galamsey relation. The method takes in a string data type which is the file directory or path for the csv file one wants to read into the database. The csv file must have the same number of columns with the each having a data integrity constraint has the attributes in the database. The columns of the csv file should be the same as the columns of each relation one is inserting to. The above creation of the individual relation shows the attributes and the data type of each attribute which should correspond with columns and data type of the csv file. The csv file must be comma delimited. 
+
+How it works 
+-----------------------------------------------------------------------------
+Depending on the csv file you are reading from and the relation you want to insert to, the read_into_observatory(String filecsv1) method takes the csv file path of a csv file and inserts its data into the observatory relation. The Take_csv_Galamsey(String filecsv2) takes the string file path or directory of the 
